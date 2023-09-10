@@ -1,4 +1,6 @@
 # assignment2_datamining
+#1  My Journey into Machine Learning with JadBio
+
 <img width="1440" alt="image" src="https://github.com/ajmeraavi/assignment2_datamining/assets/64644778/18d50fef-65d9-41a4-8f2a-6d904a2596c9">
 
 <img width="1440" alt="image" src="https://github.com/ajmeraavi/assignment2_datamining/assets/64644778/7cce2c68-803d-43bc-9131-17a7ea098f82">
