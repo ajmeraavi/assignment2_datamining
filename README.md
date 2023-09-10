@@ -1,7 +1,13 @@
 # assignment2_datamining
 #1  My Journey into Machine Learning with JadBio
+MEDIUM LINK: https://medium.com/@ajmeraavi/my-journey-into-machine-learning-with-jadbio-e3ab6b897798
+This is a walk through of the process I took while working with Crop Recommendation Dataset using JabBio
+
+In the modern era, where data-driven decision-making is key, farmers can harness the power of machine learning to optimize crop selection and increase agricultural productivity. Predicting suitable crops for a farmer is a pivotal aspect of precision agriculture. In this article, I will take you through my journey of addressing this challenge using JadBio.
 
 <img width="1440" alt="image" src="https://github.com/ajmeraavi/assignment2_datamining/assets/64644778/18d50fef-65d9-41a4-8f2a-6d904a2596c9">
+
+This is the landing page when I created a new project it asked for a project title and a brief project description
 
 <img width="1440" alt="image" src="https://github.com/ajmeraavi/assignment2_datamining/assets/64644778/7cce2c68-803d-43bc-9131-17a7ea098f82">
 
