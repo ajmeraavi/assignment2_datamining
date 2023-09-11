@@ -81,3 +81,10 @@ The results for manually entered values -
 My journey into machine learning with JadBio has demonstrated how this powerful toolkit can be used to predict suitable solutions for a wide range of applications, enabling users to make informed decisions and optimize various processes. From data preprocessing and feature engineering to model selection and deployment, JadBio simplifies the entire machine-learning pipeline.
 
 As industries across the board continue to embrace technological advancements, machine learning and tools like JadBio will play an increasingly pivotal role in shaping the future. Whether you’re a data scientist, a researcher, or a professional seeking to optimize decision-making in your field, JadBio offers a robust and user-friendly platform to harness the potential of machine learning.
+
+
+#2 ML Implementations using PyCaret (All COLLAB files included in the folder with their respective CSV files)
+
+-Regression : https://colab.research.google.com/drive/1ur1HZwzBTJAaeUC965i_i3qBCmEjZimh?usp=sharing
+
+-
