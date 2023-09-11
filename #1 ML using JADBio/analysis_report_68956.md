@@ -1,0 +1,310 @@
+
+# JADBio Description of Performed Analysis
+
+
+
+## Setup
+JADBio version <b>1.4.118</b> ran on dataset <b>Crop_recommendation</b>
+with
+<b>2200</b> samples
+and <b>7</b> features to create a predictive model for outcome named <b>label</b>.
+The outcome was discrete leading to a <b>classification</b> modeling.
+
+The preferences of the analysis were set to <b>true</b> for feature selection and <b>false</b> for full feature models tried.<br>
+The <b>AUC</b> metric was used to optimize for the best model.<br>
+The maximum number of features to select was set to <b>25</b>. <br>
+The effort to spend on tuning the algorithms were set to <b>Quick</b>.<br>
+The number of CPU cores to use for the analysis was set to <b>5</b>.<br>
+The execution time was <b>00:12:05</b>.<br>
+
+
+## Configuration Space
+JADBio’s AI decide to try the following algorithms and tuning hyper-parameter values:
+
+
+Algorithm Type | Algorithm | Hyper-parameter | Set of Values
+--- | --- | --- | ---
+Preprocessing |Mean Imputation | |
+&nbsp; |Mode Imputation | |
+&nbsp; |Constant Removal | |
+&nbsp; |Variable Normalization | |
+Feature Selection |Epilogi |stoppingCriterion | Independence Test
+&nbsp; |&nbsp; |stoppingThreshold | 0.001
+&nbsp; |&nbsp; |equivalenceThreshold | 0.01
+&nbsp; |Test-Budgeted Statistically Equivalent Signature (SES) |alpha | 0.05
+&nbsp; |&nbsp; |maxK | 2.0
+&nbsp; |LASSO |penalty | 1.0
+Modeling |Classification Decision Tree with Deviance splitting criterion |minLeafSize | 3
+&nbsp; |&nbsp; |alpha | 0.05
+&nbsp; |Ridge Logistic Regression |lambda | 1.0
+&nbsp; |Classification Random Forest with Deviance splitting criterion |minLeafSize | 3.0
+&nbsp; |&nbsp; |nTrees | 100
+&nbsp; |Support Vector Machines (SVM) of type C-SVC with Linear Kernel |cost | 1.0
+&nbsp; |Support Vector Machines (SVM) of type C-SVC with Polynomial Kernel |cost | 1.0
+&nbsp; |&nbsp; |degree | 3
+&nbsp; |&nbsp; |gamma | 1.0
+&nbsp; |Support Vector Machines (SVM) of type C-SVC with Gaussian Kernel |cost | 1.0
+&nbsp; |&nbsp; |gamma | 1.0
+<br><br>
+
+
+Leading to <b>25</b> combinations and corresponding configurations (machine learning pipelines) to try.
+For the full configurations tested see the Appendix.
+<br><br>
+
+
+## Configuration Estimation Protocol
+JADBio’s AI system decided to estimate the out-of-sample performance of the models produced by each configuration
+  using <b>Repeated 10-fold CV without dropping (max. repeats = 20).</b>
+Overall, 25 configurations × 20 repeats × 10 folds = 250 models were set out to train.
+
+
+
+
+# JADBio Results Summary
+
+## Overview
+
+A result summary is presented for analysis optimized for Performance.
+The model is produced by applying the algorithms in sequence (configuration) on the training data:
+
+Preprocessing | Feature Selection | Predictive algorithm
+--- | --- | ---
+Mean Imputation, Mode Imputation, Constant Removal, Standardization | LASSO Feature Selection (penalty=1.0) | Classification Random Forest training 100 trees with Deviance splitting criterion, minimum leaf size = 3, splits = 1, alpha = 1, and variables to split = 0.816 sqrt ( nvars )
+
+<br>
+
+
+
+The Area Under the ROC Curve is shown in the figure below:
+<br>
+
+
+
+
+
+
+
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iNTAwIiBpZD0icm9jLXBsb3QiPjx0ZXh0IHg9IjQ4MCIgeT0iMjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHN0eWxlPSJmb250LXNpemU6IDE2cHg7Ij5SZWNlaXZlciBPcGVyYXRpbmcgQ2hhcmFjdGVyaXN0aWMgKFJPQykgQ3VydmUgZm9yIGNsYXNzIGJhbmFuYTwvdGV4dD48ZyBjbGFzcz0iYXhpcyBheGlzLS14IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNTAsNDQwKSIgZmlsbD0ibm9uZSIgZm9udC1zaXplPSIxMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjxwYXRoIGNsYXNzPSJkb21haW4iIHN0cm9rZT0iY3VycmVudENvbG9yIiBkPSJNMC41LDZWMC41SDczMC41VjYiLz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC41LDApIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeTI9IjYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHk9IjkiIGR5PSIwLjcxZW0iPjAuMDwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDczLjUsMCkiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB5Mj0iNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeT0iOSIgZHk9IjAuNzFlbSI+MC4xPC90ZXh0PjwvZz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTQ2LjUsMCkiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB5Mj0iNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeT0iOSIgZHk9IjAuNzFlbSI+MC4yPC90ZXh0PjwvZz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjE5LjUsMCkiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB5Mj0iNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeT0iOSIgZHk9IjAuNzFlbSI+MC4zPC90ZXh0PjwvZz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjkyLjUsMCkiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB5Mj0iNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeT0iOSIgZHk9IjAuNzFlbSI+MC40PC90ZXh0PjwvZz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzY1LjUsMCkiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB5Mj0iNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeT0iOSIgZHk9IjAuNzFlbSI+MC41PC90ZXh0PjwvZz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDM4LjUsMCkiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB5Mj0iNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeT0iOSIgZHk9IjAuNzFlbSI+MC42PC90ZXh0PjwvZz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTExLjQ5OTk5OTk5OTk5OTk0LDApIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeTI9IjYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHk9IjkiIGR5PSIwLjcxZW0iPjAuNzwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU4NC41LDApIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeTI9IjYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHk9IjkiIGR5PSIwLjcxZW0iPjAuODwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY1Ny41LDApIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeTI9IjYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHk9IjkiIGR5PSIwLjcxZW0iPjAuOTwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDczMC41LDApIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeTI9IjYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHk9IjkiIGR5PSIwLjcxZW0iPjEuMDwvdGV4dD48L2c+PC9nPjxnIGNsYXNzPSJheGlzIGF4aXMtLXkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE1MCw0MCkiIGZpbGw9Im5vbmUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiB0ZXh0LWFuY2hvcj0iZW5kIj48cGF0aCBjbGFzcz0iZG9tYWluIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgZD0iTS02LDQwMC41SDAuNVYwLjVILTYiLz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCw0MDAuNSkiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB4Mj0iLTYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHg9Ii05IiBkeT0iMC4zMmVtIj4wLjA8L3RleHQ+PC9nPjxnIGNsYXNzPSJ0aWNrIiBvcGFjaXR5PSIxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLDMyMC41KSI+PGxpbmUgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHgyPSItNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeD0iLTkiIGR5PSIwLjMyZW0iPjAuMjwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsMjQwLjUpIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeDI9Ii02Ii8+PHRleHQgZmlsbD0iY3VycmVudENvbG9yIiB4PSItOSIgZHk9IjAuMzJlbSI+MC40PC90ZXh0PjwvZz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwxNjAuNSkiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB4Mj0iLTYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHg9Ii05IiBkeT0iMC4zMmVtIj4wLjY8L3RleHQ+PC9nPjxnIGNsYXNzPSJ0aWNrIiBvcGFjaXR5PSIxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLDgwLjQ5OTk5OTk5OTk5OTk5KSI+PGxpbmUgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHgyPSItNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeD0iLTkiIGR5PSIwLjMyZW0iPjAuODwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsMC41KSI+PGxpbmUgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHgyPSItNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeD0iLTkiIGR5PSIwLjMyZW0iPjEuMDwvdGV4dD48L2c+PC9nPjxwYXRoIGNsYXNzPSJhcmVhIiBkPSJNNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBMMzQuMDc1MDA0ODAyNzI3MjUsMEwwLDMyMC44NzIxMTc0MDA0MTkzTDAsMTMyLjM5NDYxMTAzODY3ODg1TDM0LjA3NTAwNDgwMjcyNzI1LDBMNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNTAsNDApIiBmaWxsPSIjYmJiIi8+PHRleHQgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDgwICw0OTApIiBzdHlsZT0idGV4dC1hbmNob3I6IG1pZGRsZTsiPkZhbHNlIFBvc2l0aXZlIFJhdGUgKDEtU3BlY2lmaWNpdHkpPC90ZXh0Pjx0ZXh0IHRyYW5zZm9ybT0idHJhbnNsYXRlKDc1LDMzMy4zMzMzMzMzMzMzMzMzKXJvdGF0ZSgtOTApIj5UcnVlIFBvc2l0aXZlIFJhdGUgKFNlbnNpdGl2aXR5KTwvdGV4dD48ZyBjbGFzcz0iZ2RwIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNTAsNDApIj48cGF0aCBjbGFzcz0ibGluZSIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIycHgiIHNoYXBlLXJlbmRlcmluZz0iZ2VvbWV0cmljUHJlY2lzaW9uIiBkPSJNNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBMNzMwLDBMMzQuMDc1MDA0ODAyNzI3MjUsMEwwLDIzNy40MDQ3NDM5NTE5MzEwNyIgc3Ryb2tlLWRhc2hhcnJheT0iMTAiIHN0cm9rZT0ic3RlZWxibHVlIi8+PC9nPjxnIGNsYXNzPSJsZWdlbmQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsMCkiPjxsaW5lIHgxPSIxNTAiIHkxPSI0NDAiIHgyPSI4ODAiIHkyPSI0MCIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2UtZGFzaGFycmF5PSI1IDMiIHN0eWxlPSJzdHJva2U6IGJsYWNrOyIvPjwvZz48ZyBjbGFzcz0iYmFuZHMiPjxsaW5lIHgxPSI2NjAiIHkxPSIyMDAiIHgyPSI2ODAiIHkyPSIyMDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0ic3RlZWxibHVlIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1kYXNoYXJyYXk9IjUgNSIvPjx0ZXh0IHRyYW5zZm9ybT0idHJhbnNsYXRlKDg2MCAsMjA1KSIgc3R5bGU9InRleHQtYW5jaG9yOiBlbmQ7Ij5UcmFpbmluZyBtZWFuIHBlcmZvcm1hbmNlPC90ZXh0PjwvZz48bGluZSB4MT0iODgwIiB5MT0iNDAiIHgyPSI4ODAiIHkyPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJvcmFuZ2UiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWRhc2hhcnJheT0iNSA1Ii8+PGxpbmUgeDE9Ijg4MCIgeTE9IjQwIiB4Mj0iODgwIiB5Mj0iNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0ib3JhbmdlIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1kYXNoYXJyYXk9IjUgNSIvPjxsaW5lIHgxPSI4ODAiIHkxPSI0MCIgeDI9Ijg4MCIgeTI9IjQwIiBmaWxsPSJub25lIiBzdHJva2U9Im9yYW5nZSIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2UtZGFzaGFycmF5PSI1IDUiLz48bGluZSB4MT0iODgwIiB5MT0iNDAiIHgyPSI4ODAiIHkyPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJvcmFuZ2UiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWRhc2hhcnJheT0iNSA1Ii8+PGxpbmUgeDE9Ijg4MCIgeTE9IjQwIiB4Mj0iODgwIiB5Mj0iNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0ib3JhbmdlIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1kYXNoYXJyYXk9IjUgNSIvPjxsaW5lIHgxPSI4ODAiIHkxPSI0MCIgeDI9Ijg4MCIgeTI9IjQwIiBmaWxsPSJub25lIiBzdHJva2U9Im9yYW5nZSIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2UtZGFzaGFycmF5PSI1IDUiLz48bGluZSB4MT0iODgwIiB5MT0iNDAiIHgyPSI4ODAiIHkyPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJvcmFuZ2UiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWRhc2hhcnJheT0iNSA1Ii8+PGxpbmUgeDE9Ijg4MCIgeTE9IjQwIiB4Mj0iODgwIiB5Mj0iNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0ib3JhbmdlIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1kYXNoYXJyYXk9IjUgNSIvPjxsaW5lIHgxPSI4ODAiIHkxPSI0MCIgeDI9Ijg4MCIgeTI9IjQwIiBmaWxsPSJub25lIiBzdHJva2U9Im9yYW5nZSIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2UtZGFzaGFycmF5PSI1IDUiLz48bGluZSB4MT0iODgwIiB5MT0iNDAiIHgyPSI4ODAiIHkyPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJvcmFuZ2UiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWRhc2hhcnJheT0iNSA1Ii8+PGxpbmUgeDE9IjE2OS44MTY2NTk4MTA5NjcyIiB5MT0iNDAiIHgyPSIxOTcuNTYzODIwOTUwNzIwMyIgeTI9IjQwIiBmaWxsPSJub25lIiBzdHJva2U9Im9yYW5nZSIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2UtZGFzaGFycmF5PSI1IDUiLz48bGluZSB4MT0iMTUwIiB5MT0iMjc3LjQwNDc0Mzk1MTkzMTEiIHgyPSIxNTAiIHkyPSIyNzcuNDA0NzQzOTUxOTMxMSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJvcmFuZ2UiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWRhc2hhcnJheT0iNSA1Ii8+PGNpcmNsZSBpZD0iY2lyY2xlMCIgY3g9Ijg4MCIgY3k9IjQwIiByPSI1IiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJncmF5IiBzdHJva2Utd2lkdGg9IjNweCIgdD0iMC4wIiBmbj0iMC4wMCBbMC4wMCwgMC4wMF0iIGZwPSIwLjk1IFswLjk0LCAwLjk3XSIgdHA9IjAuMDUgWzAuMDMsIDAuMDZdIiB0bj0iMC4wMCBbMC4wMCwgMC4wMF0iIHN0eWxlPSJjdXJzb3I6IHBvaW50ZXI7Ii8+PGNpcmNsZSBpZD0iY2lyY2xlMSIgY3g9Ijg4MCIgY3k9IjQwIiByPSI1IiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJncmF5IiBzdHJva2Utd2lkdGg9IjNweCIgdD0iMC4wIiBmbj0iMC4wMCBbMC4wMCwgMC4wMF0iIGZwPSIwLjk1IFswLjk0LCAwLjk3XSIgdHA9IjAuMDUgWzAuMDMsIDAuMDZdIiB0bj0iMC4wMCBbMC4wMCwgMC4wMF0iIHN0eWxlPSJjdXJzb3I6IHBvaW50ZXI7Ii8+PGNpcmNsZSBpZD0iY2lyY2xlMiIgY3g9Ijg4MCIgY3k9IjQwIiByPSI1IiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJncmF5IiBzdHJva2Utd2lkdGg9IjNweCIgdD0iMC4wIiBmbj0iMC4wMCBbMC4wMCwgMC4wMF0iIGZwPSIwLjk1IFswLjk0LCAwLjk3XSIgdHA9IjAuMDUgWzAuMDMsIDAuMDZdIiB0bj0iMC4wMCBbMC4wMCwgMC4wMF0iIHN0eWxlPSJjdXJzb3I6IHBvaW50ZXI7Ii8+PGNpcmNsZSBpZD0iY2lyY2xlMyIgY3g9Ijg4MCIgY3k9IjQwIiByPSI1IiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJncmF5IiBzdHJva2Utd2lkdGg9IjNweCIgdD0iMC4wIiBmbj0iMC4wMCBbMC4wMCwgMC4wMF0iIGZwPSIwLjk1IFswLjk0LCAwLjk3XSIgdHA9IjAuMDUgWzAuMDMsIDAuMDZdIiB0bj0iMC4wMCBbMC4wMCwgMC4wMF0iIHN0eWxlPSJjdXJzb3I6IHBvaW50ZXI7Ii8+PGNpcmNsZSBpZD0iY2lyY2xlNCIgY3g9Ijg4MCIgY3k9IjQwIiByPSI1IiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJncmF5IiBzdHJva2Utd2lkdGg9IjNweCIgdD0iMC4wIiBmbj0iMC4wMCBbMC4wMCwgMC4wMF0iIGZwPSIwLjk1IFswLjk0LCAwLjk3XSIgdHA9IjAuMDUgWzAuMDMsIDAuMDZdIiB0bj0iMC4wMCBbMC4wMCwgMC4wMF0iIHN0eWxlPSJjdXJzb3I6IHBvaW50ZXI7Ii8+PGNpcmNsZSBpZD0iY2lyY2xlNSIgY3g9Ijg4MCIgY3k9IjQwIiByPSI1IiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJncmF5IiBzdHJva2Utd2lkdGg9IjNweCIgdD0iMC4wIiBmbj0iMC4wMCBbMC4wMCwgMC4wMF0iIGZwPSIwLjk1IFswLjk0LCAwLjk3XSIgdHA9IjAuMDUgWzAuMDMsIDAuMDZdIiB0bj0iMC4wMCBbMC4wMCwgMC4wMF0iIHN0eWxlPSJjdXJzb3I6IHBvaW50ZXI7Ii8+PGNpcmNsZSBpZD0iY2lyY2xlNiIgY3g9Ijg4MCIgY3k9IjQwIiByPSI1IiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJncmF5IiBzdHJva2Utd2lkdGg9IjNweCIgdD0iMC4wIiBmbj0iMC4wMCBbMC4wMCwgMC4wMF0iIGZwPSIwLjk1IFswLjk0LCAwLjk3XSIgdHA9IjAuMDUgWzAuMDMsIDAuMDZdIiB0bj0iMC4wMCBbMC4wMCwgMC4wMF0iIHN0eWxlPSJjdXJzb3I6IHBvaW50ZXI7Ii8+PGNpcmNsZSBpZD0iY2lyY2xlNyIgY3g9Ijg4MCIgY3k9IjQwIiByPSI1IiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJncmF5IiBzdHJva2Utd2lkdGg9IjNweCIgdD0iMC4wIiBmbj0iMC4wMCBbMC4wMCwgMC4wMF0iIGZwPSIwLjk1IFswLjk0LCAwLjk3XSIgdHA9IjAuMDUgWzAuMDMsIDAuMDZdIiB0bj0iMC4wMCBbMC4wMCwgMC4wMF0iIHN0eWxlPSJjdXJzb3I6IHBvaW50ZXI7Ii8+PGNpcmNsZSBpZD0iY2lyY2xlOCIgY3g9Ijg4MCIgY3k9IjQwIiByPSI1IiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJncmF5IiBzdHJva2Utd2lkdGg9IjNweCIgdD0iMC4wIiBmbj0iMC4wMCBbMC4wMCwgMC4wMF0iIGZwPSIwLjk1IFswLjk0LCAwLjk3XSIgdHA9IjAuMDUgWzAuMDMsIDAuMDZdIiB0bj0iMC4wMCBbMC4wMCwgMC4wMF0iIHN0eWxlPSJjdXJzb3I6IHBvaW50ZXI7Ii8+PGNpcmNsZSBpZD0iY2lyY2xlOSIgY3g9Ijg4MCIgY3k9IjQwIiByPSI1IiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJncmF5IiBzdHJva2Utd2lkdGg9IjNweCIgdD0iMC4wIiBmbj0iMC4wMCBbMC4wMCwgMC4wMF0iIGZwPSIwLjk1IFswLjk0LCAwLjk3XSIgdHA9IjAuMDUgWzAuMDMsIDAuMDZdIiB0bj0iMC4wMCBbMC4wMCwgMC4wMF0iIHN0eWxlPSJjdXJzb3I6IHBvaW50ZXI7Ii8+PGNpcmNsZSBpZD0iY2lyY2xlMTAiIGN4PSIxODQuMDc1MDA0ODAyNzI3MjUiIGN5PSI0MCIgcj0iNSIgZmlsbD0id2hpdGUiIHN0cm9rZT0iZ3JheSIgc3Ryb2tlLXdpZHRoPSIzcHgiIHQ9IjAuMDAzMzMzMzMzMzMzMzMzMzMzIiBmbj0iMC4wMCBbMC4wMCwgMC4wMF0iIGZwPSIwLjA0IFswLjAzLCAwLjA2XSIgdHA9IjAuMDUgWzAuMDMsIDAuMDZdIiB0bj0iMC45MSBbMC44OSwgMC45M10iIHN0eWxlPSJjdXJzb3I6IHBvaW50ZXI7Ii8+PGNpcmNsZSBpZD0iY2lyY2xlMTEiIGN4PSIxNTAiIGN5PSIyNzcuNDA0NzQzOTUxOTMxMSIgcj0iNSIgZmlsbD0id2hpdGUiIHN0cm9rZT0iZ3JheSIgc3Ryb2tlLXdpZHRoPSIzcHgiIHQ9IjEuMCIgZm49IjAuMDMgWzAuMDEsIDAuMDRdIiBmcD0iMC4wMCBbMC4wMCwgMC4wMF0iIHRwPSIwLjAyIFswLjAxLCAwLjAzXSIgdG49IjAuOTUgWzAuOTQsIDAuOTddIiBzdHlsZT0iY3Vyc29yOiBwb2ludGVyOyIvPjwvc3ZnPg=="/>
+  <br><br>
+  
+Metric | Mean estimate | CI
+--- | --- | ---
+  Area Under the ROC Curve | 1.000 | [1.000, 1.000]
+ Mean Average Precision (a.k.a. Average Area Under the Precision-Recall curve) | 1.000 | [1.000, 1.000]
+ Accuracy | 0.995 | [0.990, 0.999]
+ Balanced Accuracy | 0.995 | [0.989, 0.999]
+ Average F1 score | 0.994 | [0.989, 0.999]
+ Average Matthews correlation | 0.994 | [0.988, 0.998]
+ Precision for class apple | 1.000 | [1.000, 1.000]
+ Precision for class banana | 1.000 | [1.000, 1.000]
+ Precision for class blackgram | 0.997 | [0.971, 1.000]
+ Precision for class chickpea | 1.000 | [1.000, 1.000]
+ Precision for class coconut | 1.000 | [1.000, 1.000]
+ Precision for class coffee | 1.000 | [1.000, 1.000]
+ Precision for class cotton | 0.991 | [0.957, 1.000]
+ Precision for class grapes | 1.000 | [1.000, 1.000]
+ Precision for class jute | 0.938 | [0.857, 1.000]
+ Precision for class kidneybeans | 1.000 | [1.000, 1.000]
+ Precision for class lentil | 0.990 | [0.955, 1.000]
+ Precision for class maize | 0.997 | [0.967, 1.000]
+ Precision for class mango | 1.000 | [1.000, 1.000]
+ Precision for class mothbeans | 0.991 | [0.956, 1.000]
+ Precision for class mungbean | 1.000 | [1.000, 1.000]
+ Precision for class muskmelon | 1.000 | [1.000, 1.000]
+ Precision for class orange | 1.000 | [1.000, 1.000]
+ Precision for class papaya | 1.000 | [1.000, 1.000]
+ Precision for class pigeonpeas | 1.000 | [1.000, 1.000]
+ Precision for class pomegranate | 1.000 | [1.000, 1.000]
+ Precision for class rice | 0.989 | [0.950, 1.000]
+ Precision for class watermelon | 1.000 | [1.000, 1.000]
+ MCC for class apple | 1.000 | [1.000, 1.000]
+ MCC for class banana | 1.000 | [1.000, 1.000]
+ MCC for class blackgram | 0.996 | [0.971, 1.000]
+ MCC for class chickpea | 1.000 | [1.000, 1.000]
+ MCC for class coconut | 1.000 | [1.000, 1.000]
+ MCC for class coffee | 1.000 | [1.000, 1.000]
+ MCC for class cotton | 0.995 | [0.979, 1.000]
+ MCC for class grapes | 1.000 | [1.000, 1.000]
+ MCC for class jute | 0.959 | [0.909, 0.992]
+ MCC for class kidneybeans | 1.000 | [1.000, 1.000]
+ MCC for class lentil | 0.988 | [0.961, 1.000]
+ MCC for class maize | 0.993 | [0.968, 1.000]
+ MCC for class mango | 1.000 | [1.000, 1.000]
+ MCC for class mothbeans | 0.987 | [0.959, 1.000]
+ MCC for class mungbean | 1.000 | [1.000, 1.000]
+ MCC for class muskmelon | 1.000 | [1.000, 1.000]
+ MCC for class orange | 1.000 | [1.000, 1.000]
+ MCC for class papaya | 1.000 | [1.000, 1.000]
+ MCC for class pigeonpeas | 1.000 | [1.000, 1.000]
+ MCC for class pomegranate | 1.000 | [1.000, 1.000]
+ MCC for class rice | 0.954 | [0.881, 0.992]
+ MCC for class watermelon | 1.000 | [1.000, 1.000]
+ True Positive Rate for class apple | 1.000 | [1.000, 1.000]
+ True Positive Rate for class banana | 1.000 | [1.000, 1.000]
+ True Positive Rate for class blackgram | 0.997 | [0.970, 1.000]
+ True Positive Rate for class chickpea | 1.000 | [1.000, 1.000]
+ True Positive Rate for class coconut | 1.000 | [1.000, 1.000]
+ True Positive Rate for class coffee | 1.000 | [1.000, 1.000]
+ True Positive Rate for class cotton | 1.000 | [1.000, 1.000]
+ True Positive Rate for class grapes | 1.000 | [1.000, 1.000]
+ True Positive Rate for class jute | 0.988 | [0.944, 1.000]
+ True Positive Rate for class kidneybeans | 1.000 | [1.000, 1.000]
+ True Positive Rate for class lentil | 0.989 | [0.950, 1.000]
+ True Positive Rate for class maize | 0.991 | [0.955, 1.000]
+ True Positive Rate for class mango | 1.000 | [1.000, 1.000]
+ True Positive Rate for class mothbeans | 0.987 | [0.947, 1.000]
+ True Positive Rate for class mungbean | 1.000 | [1.000, 1.000]
+ True Positive Rate for class muskmelon | 1.000 | [1.000, 1.000]
+ True Positive Rate for class orange | 1.000 | [1.000, 1.000]
+ True Positive Rate for class papaya | 1.000 | [1.000, 1.000]
+ True Positive Rate for class pigeonpeas | 1.000 | [1.000, 1.000]
+ True Positive Rate for class pomegranate | 1.000 | [1.000, 1.000]
+ True Positive Rate for class rice | 0.932 | [0.844, 1.000]
+ True Positive Rate for class watermelon | 1.000 | [1.000, 1.000]
+ Sensitivity for class apple | 1.000 | [1.000, 1.000]
+ Sensitivity for class banana | 1.000 | [1.000, 1.000]
+ Sensitivity for class blackgram | 0.997 | [0.970, 1.000]
+ Sensitivity for class chickpea | 1.000 | [1.000, 1.000]
+ Sensitivity for class coconut | 1.000 | [1.000, 1.000]
+ Sensitivity for class coffee | 1.000 | [1.000, 1.000]
+ Sensitivity for class cotton | 1.000 | [1.000, 1.000]
+ Sensitivity for class grapes | 1.000 | [1.000, 1.000]
+ Sensitivity for class jute | 0.988 | [0.944, 1.000]
+ Sensitivity for class kidneybeans | 1.000 | [1.000, 1.000]
+ Sensitivity for class lentil | 0.989 | [0.950, 1.000]
+ Sensitivity for class maize | 0.991 | [0.955, 1.000]
+ Sensitivity for class mango | 1.000 | [1.000, 1.000]
+ Sensitivity for class mothbeans | 0.987 | [0.947, 1.000]
+ Sensitivity for class mungbean | 1.000 | [1.000, 1.000]
+ Sensitivity for class muskmelon | 1.000 | [1.000, 1.000]
+ Sensitivity for class orange | 1.000 | [1.000, 1.000]
+ Sensitivity for class papaya | 1.000 | [1.000, 1.000]
+ Sensitivity for class pigeonpeas | 1.000 | [1.000, 1.000]
+ Sensitivity for class pomegranate | 1.000 | [1.000, 1.000]
+ Sensitivity for class rice | 0.932 | [0.844, 1.000]
+ Sensitivity for class watermelon | 1.000 | [1.000, 1.000]
+ Specificity for class apple | 1.000 | [1.000, 1.000]
+ Specificity for class banana | 1.000 | [1.000, 1.000]
+ Specificity for class blackgram | 1.000 | [0.999, 1.000]
+ Specificity for class chickpea | 1.000 | [1.000, 1.000]
+ Specificity for class coconut | 1.000 | [1.000, 1.000]
+ Specificity for class coffee | 1.000 | [1.000, 1.000]
+ Specificity for class cotton | 1.000 | [0.999, 1.000]
+ Specificity for class grapes | 1.000 | [1.000, 1.000]
+ Specificity for class jute | 0.997 | [0.993, 1.000]
+ Specificity for class kidneybeans | 1.000 | [1.000, 1.000]
+ Specificity for class lentil | 1.000 | [0.999, 1.000]
+ Specificity for class maize | 1.000 | [0.999, 1.000]
+ Specificity for class mango | 1.000 | [1.000, 1.000]
+ Specificity for class mothbeans | 1.000 | [0.999, 1.000]
+ Specificity for class mungbean | 1.000 | [1.000, 1.000]
+ Specificity for class muskmelon | 1.000 | [1.000, 1.000]
+ Specificity for class orange | 1.000 | [1.000, 1.000]
+ Specificity for class papaya | 1.000 | [1.000, 1.000]
+ Specificity for class pigeonpeas | 1.000 | [1.000, 1.000]
+ Specificity for class pomegranate | 1.000 | [1.000, 1.000]
+ Specificity for class rice | 0.999 | [0.997, 1.000]
+ Specificity for class watermelon | 1.000 | [1.000, 1.000]
+ Average Precision for class apple | 1.000 | [1.000, 1.000]
+ Average Precision for class banana | 1.000 | [1.000, 1.000]
+ Average Precision for class blackgram | 1.000 | [1.000, 1.000]
+ Average Precision for class chickpea | 1.000 | [1.000, 1.000]
+ Average Precision for class coconut | 1.000 | [1.000, 1.000]
+ Average Precision for class coffee | 1.000 | [1.000, 1.000]
+ Average Precision for class cotton | 1.000 | [1.000, 1.000]
+ Average Precision for class grapes | 1.000 | [1.000, 1.000]
+ Average Precision for class jute | 0.996 | [0.980, 1.000]
+ Average Precision for class kidneybeans | 1.000 | [1.000, 1.000]
+ Average Precision for class lentil | 1.000 | [1.000, 1.000]
+ Average Precision for class maize | 1.000 | [1.000, 1.000]
+ Average Precision for class mango | 1.000 | [1.000, 1.000]
+ Average Precision for class mothbeans | 1.000 | [1.000, 1.000]
+ Average Precision for class mungbean | 1.000 | [1.000, 1.000]
+ Average Precision for class muskmelon | 1.000 | [1.000, 1.000]
+ Average Precision for class orange | 1.000 | [1.000, 1.000]
+ Average Precision for class papaya | 1.000 | [1.000, 1.000]
+ Average Precision for class pigeonpeas | 1.000 | [1.000, 1.000]
+ Average Precision for class pomegranate | 1.000 | [1.000, 1.000]
+ Average Precision for class rice | 0.998 | [0.984, 1.000]
+ Average Precision for class watermelon | 1.000 | [1.000, 1.000]
+
+  <br><br>
+
+## Feature Selection
+
+
+There were <b>7</b> features selected
+out of the <b>7</b> available.
+
+
+The selected features consist of the following subset called a signature.
+<b>There was a single signature identified.</b>
+The first signature identified by the system is the set:
+<b>N, P, K, temperature, humidity, ph, rainfall</b> in order of importance.
+The following features cannot be substituted with others and still obtain
+an equal predictive performance: <b>N, P, K, temperature, humidity, ph, rainfall</b>.
+
+
+
+<br>
+The performance achieved by adding each feature in sequence to the model relative to the performance of the final model with all selected features is shown below.
+The features are added in order of importance:
+<br>
+
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMzAwIiBoZWlnaHQ9IjMyMCI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDAwLDYwKSI+PHBhdGggZD0iJiMxMDsgICAgICAgICAgTTAsMTgwLjQyMjUzNTIxMTI2NzYxJiMxMDsgICAgICAgICAgaDU5NC45OTIwMzA2NDk2Mjg1JiMxMDsgICAgICAgICAgYTUsNSAwIDAgMSA1LDUmIzEwOyAgICAgICAgICB2MTYuNjE5NzE4MzA5ODU5MTUyJiMxMDsgICAgICAgICAgYTUsNSAwIDAgMSAtNSw1JiMxMDsgICAgICAgICAgaC01OTQuOTkyMDMwNjQ5NjI4NXomIzEwOyAgICAgICAgIiBzdHlsZT0iZmlsbDogcmdiKDEzOSwgMjAyLCAxMzYpOyIvPjxwYXRoIGQ9IiYjMTA7ICAgICAgICAgIE0wLDE1MC44NDUwNzA0MjI1MzUyJiMxMDsgICAgICAgICAgaDU5NC45OTIwMzA2NDk2Mjg1JiMxMDsgICAgICAgICAgYTUsNSAwIDAgMSA1LDUmIzEwOyAgICAgICAgICB2MTYuNjE5NzE4MzA5ODU5MTUyJiMxMDsgICAgICAgICAgYTUsNSAwIDAgMSAtNSw1JiMxMDsgICAgICAgICAgaC01OTQuOTkyMDMwNjQ5NjI4NXomIzEwOyAgICAgICAgIiBzdHlsZT0iZmlsbDogcmdiKDEzOSwgMjAyLCAxMzYpOyIvPjxwYXRoIGQ9IiYjMTA7ICAgICAgICAgIE0wLDEyMS4yNjc2MDU2MzM4MDI4MiYjMTA7ICAgICAgICAgIGg1OTQuOTkyMDMwNjQ5NjI4NSYjMTA7ICAgICAgICAgIGE1LDUgMCAwIDEgNSw1JiMxMDsgICAgICAgICAgdjE2LjYxOTcxODMwOTg1OTE1MiYjMTA7ICAgICAgICAgIGE1LDUgMCAwIDEgLTUsNSYjMTA7ICAgICAgICAgIGgtNTk0Ljk5MjAzMDY0OTYyODV6JiMxMDsgICAgICAgICIgc3R5bGU9ImZpbGw6IHJnYigxMzksIDIwMiwgMTM2KTsiLz48cGF0aCBkPSImIzEwOyAgICAgICAgICBNMCw5MS42OTAxNDA4NDUwNzA0MyYjMTA7ICAgICAgICAgIGg1OTQuNzY3NDc3OTA4MTk0JiMxMDsgICAgICAgICAgYTUsNSAwIDAgMSA1LDUmIzEwOyAgICAgICAgICB2MTYuNjE5NzE4MzA5ODU5MTUyJiMxMDsgICAgICAgICAgYTUsNSAwIDAgMSAtNSw1JiMxMDsgICAgICAgICAgaC01OTQuNzY3NDc3OTA4MTk0eiYjMTA7ICAgICAgICAiIHN0eWxlPSJmaWxsOiByZ2IoMTM5LCAyMDIsIDEzNik7Ii8+PHBhdGggZD0iJiMxMDsgICAgICAgICAgTTAsNjIuMTEyNjc2MDU2MzM4MDMmIzEwOyAgICAgICAgICBoNTk0LjM2Mjc5Mzc0ODYxMTUmIzEwOyAgICAgICAgICBhNSw1IDAgMCAxIDUsNSYjMTA7ICAgICAgICAgIHYxNi42MTk3MTgzMDk4NTkxNTImIzEwOyAgICAgICAgICBhNSw1IDAgMCAxIC01LDUmIzEwOyAgICAgICAgICBoLTU5NC4zNjI3OTM3NDg2MTE1eiYjMTA7ICAgICAgICAiIHN0eWxlPSJmaWxsOiByZ2IoMTM5LCAyMDIsIDEzNik7Ii8+PHBhdGggZD0iJiMxMDsgICAgICAgICAgTTAsMzIuNTM1MjExMjY3NjA1NjQmIzEwOyAgICAgICAgICBoNTg4LjU1MDk4MDM5OTg4OTMmIzEwOyAgICAgICAgICBhNSw1IDAgMCAxIDUsNSYjMTA7ICAgICAgICAgIHYxNi42MTk3MTgzMDk4NTkxNTImIzEwOyAgICAgICAgICBhNSw1IDAgMCAxIC01LDUmIzEwOyAgICAgICAgICBoLTU4OC41NTA5ODAzOTk4ODkzeiYjMTA7ICAgICAgICAiIHN0eWxlPSJmaWxsOiByZ2IoMTM5LCAyMDIsIDEzNik7Ii8+PHBhdGggZD0iJiMxMDsgICAgICAgICAgTTAsMi45NTc3NDY0Nzg4NzMyNDcmIzEwOyAgICAgICAgICBoNTI0Ljc1NzU1OTk0NjY3NjkmIzEwOyAgICAgICAgICBhNSw1IDAgMCAxIDUsNSYjMTA7ICAgICAgICAgIHYxNi42MTk3MTgzMDk4NTkxNTImIzEwOyAgICAgICAgICBhNSw1IDAgMCAxIC01LDUmIzEwOyAgICAgICAgICBoLTUyNC43NTc1NTk5NDY2NzY5eiYjMTA7ICAgICAgICAiIHN0eWxlPSJmaWxsOiByZ2IoMTM5LCAyMDIsIDEzNik7Ii8+PGxpbmUgY2xhc3M9ImVycm9yIiB4MT0iNTk5LjkxMDc2MTc1Mjg2NzEiIHgyPSI2MDAiIHkxPSIxOTMuNzMyMzk0MzY2MTk3MTgiIHkyPSIxOTMuNzMyMzk0MzY2MTk3MTgiIHN0eWxlPSJzdHJva2U6IHJnYigxMTcsIDExNywgMTE3KTsgc3Ryb2tlLXdpZHRoOiAxcHg7IGZpbGw6IG5vbmU7Ii8+PGxpbmUgY2xhc3M9ImVycm9yIiB4MT0iNTk5LjkxMDc2MTc1Mjg2NzEiIHgyPSI2MDAiIHkxPSIxNjQuMTU0OTI5NTc3NDY0NzciIHkyPSIxNjQuMTU0OTI5NTc3NDY0NzciIHN0eWxlPSJzdHJva2U6IHJnYigxMTcsIDExNywgMTE3KTsgc3Ryb2tlLXdpZHRoOiAxcHg7IGZpbGw6IG5vbmU7Ii8+PGxpbmUgY2xhc3M9ImVycm9yIiB4MT0iNTk5LjkxMDc2MTc1Mjg2NzEiIHgyPSI2MDAiIHkxPSIxMzQuNTc3NDY0Nzg4NzMyMzkiIHkyPSIxMzQuNTc3NDY0Nzg4NzMyMzkiIHN0eWxlPSJzdHJva2U6IHJnYigxMTcsIDExNywgMTE3KTsgc3Ryb2tlLXdpZHRoOiAxcHg7IGZpbGw6IG5vbmU7Ii8+PGxpbmUgY2xhc3M9ImVycm9yIiB4MT0iNTk5LjU0MDE3NjE0NjU4NjYiIHgyPSI1OTkuOTI1MzU5MjkyNjU2OCIgeTE9IjEwNSIgeTI9IjEwNSIgc3R5bGU9InN0cm9rZTogcmdiKDExNywgMTE3LCAxMTcpOyBzdHJva2Utd2lkdGg6IDFweDsgZmlsbDogbm9uZTsiLz48bGluZSBjbGFzcz0iZXJyb3IiIHgxPSI1OTguOTc5NzkwNzkxOTE0OCIgeDI9IjU5OS43MDU0MDQxNzUzMjg5IiB5MT0iNzUuNDIyNTM1MjExMjY3NjEiIHkyPSI3NS40MjI1MzUyMTEyNjc2MSIgc3R5bGU9InN0cm9rZTogcmdiKDExNywgMTE3LCAxMTcpOyBzdHJva2Utd2lkdGg6IDFweDsgZmlsbDogbm9uZTsiLz48bGluZSBjbGFzcz0iZXJyb3IiIHgxPSI1OTIuMzk4NTE4ODAyNzUxOCIgeDI9IjU5NC42ODU4ODYzNjQ2Mzk4IiB5MT0iNDUuODQ1MDcwNDIyNTM1MjE1IiB5Mj0iNDUuODQ1MDcwNDIyNTM1MjE1IiBzdHlsZT0ic3Ryb2tlOiByZ2IoMTE3LCAxMTcsIDExNyk7IHN0cm9rZS13aWR0aDogMXB4OyBmaWxsOiBub25lOyIvPjxsaW5lIGNsYXNzPSJlcnJvciIgeDE9IjUyNC4yMjQxNjQ2NzM1MzI5IiB4Mj0iNTM1LjgwNTg5MzQ1MzE4NjUiIHkxPSIxNi4yNjc2MDU2MzM4MDI4MjMiIHkyPSIxNi4yNjc2MDU2MzM4MDI4MjMiIHN0eWxlPSJzdHJva2U6IHJnYigxMTcsIDExNywgMTE3KTsgc3Ryb2tlLXdpZHRoOiAxcHg7IGZpbGw6IG5vbmU7Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwyMTApIiBmaWxsPSJub25lIiBmb250LXNpemU9IjEwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+PHBhdGggY2xhc3M9ImRvbWFpbiIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIGQ9Ik0wLjUsNlYwLjVINjAwLjVWNiIvPjxnIGNsYXNzPSJ0aWNrIiBvcGFjaXR5PSIxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjUsMCkiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB5Mj0iNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeT0iOSIgZHk9IjAuNzFlbSI+MCU8L3RleHQ+PC9nPjxnIGNsYXNzPSJ0aWNrIiBvcGFjaXR5PSIxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2MC41LDApIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeTI9IjYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHk9IjkiIGR5PSIwLjcxZW0iPjEwJTwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyMC41LDApIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeTI9IjYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHk9IjkiIGR5PSIwLjcxZW0iPjIwJTwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE4MC41LDApIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeTI9IjYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHk9IjkiIGR5PSIwLjcxZW0iPjMwJTwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0MC41LDApIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeTI9IjYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHk9IjkiIGR5PSIwLjcxZW0iPjQwJTwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMwMC41LDApIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeTI9IjYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHk9IjkiIGR5PSIwLjcxZW0iPjUwJTwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM2MC41LDApIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeTI9IjYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHk9IjkiIGR5PSIwLjcxZW0iPjYwJTwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQyMC41LDApIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeTI9IjYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHk9IjkiIGR5PSIwLjcxZW0iPjcwJTwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ4MC41LDApIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeTI9IjYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHk9IjkiIGR5PSIwLjcxZW0iPjgwJTwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU0MC41LDApIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeTI9IjYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHk9IjkiIGR5PSIwLjcxZW0iPjkwJTwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYwMC41LDApIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeTI9IjYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHk9IjkiIGR5PSIwLjcxZW0iPjEwMCU8L3RleHQ+PC9nPjwvZz48dGV4dCB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzMDAgLDI1MCkiIHN0eWxlPSJ0ZXh0LWFuY2hvcjogbWlkZGxlOyI+UHJlZGljdGl2ZSBwZXJmb3JtYW5jZSBwZXJjZW50YWdlIGluY3JlYXNlPC90ZXh0PjxnIGZpbGw9Im5vbmUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiB0ZXh0LWFuY2hvcj0iZW5kIj48cGF0aCBjbGFzcz0iZG9tYWluIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgZD0iTS02LDIxMC41SDAuNVYwLjVILTYiLz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwxOTMuNzMyMzk0MzY2MTk3MTgpIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeDI9Ii02Ii8+PHRleHQgZmlsbD0iY3VycmVudENvbG9yIiB4PSItOSIgZHk9IjAuMzJlbSI+UGVyZm9ybWFuY2UgYWNoaWV2YWJsZSBieSB1c2luZyB0aGUgY29tcGxldGUgc2lnbmF0dXJlPC90ZXh0PjwvZz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwxNjQuMTU0OTI5NTc3NDY0NzcpIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeDI9Ii02Ii8+PHRleHQgZmlsbD0iY3VycmVudENvbG9yIiB4PSItOSIgZHk9IjAuMzJlbSI+UGVyZm9ybWFuY2UgYWNoaWV2YWJsZSBieSBhZGRpbmcgTiB0byB0aGUgZmlyc3QgZml2ZSBmZWF0dXJlczwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsMTM0LjU3NzQ2NDc4ODczMjM5KSI+PGxpbmUgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHgyPSItNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeD0iLTkiIGR5PSIwLjMyZW0iPlBlcmZvcm1hbmNlIGFjaGlldmFibGUgYnkgYWRkaW5nIFAgdG8gdGhlIGZpcnN0IGZvdXIgZmVhdHVyZXM8L3RleHQ+PC9nPjxnIGNsYXNzPSJ0aWNrIiBvcGFjaXR5PSIxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLDEwNSkiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB4Mj0iLTYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHg9Ii05IiBkeT0iMC4zMmVtIj5QZXJmb3JtYW5jZSBhY2hpZXZhYmxlIGJ5IGFkZGluZyB0ZW1wZXJhdHVyZSB0byB0aGUgZmlyc3QgdGhyZWUgZmVhdHVyZXM8L3RleHQ+PC9nPjxnIGNsYXNzPSJ0aWNrIiBvcGFjaXR5PSIxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLDc1LjQyMjUzNTIxMTI2NzYxKSI+PGxpbmUgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHgyPSItNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeD0iLTkiIGR5PSIwLjMyZW0iPlBlcmZvcm1hbmNlIGFjaGlldmFibGUgYnkgYWRkaW5nIEsgdG8gdGhlIGZpcnN0IHR3byBmZWF0dXJlczwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsNDUuODQ1MDcwNDIyNTM1MjE1KSI+PGxpbmUgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHgyPSItNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeD0iLTkiIGR5PSIwLjMyZW0iPlBlcmZvcm1hbmNlIGFjaGlldmFibGUgYnkgYWRkaW5nIGh1bWlkaXR5IHRvIHJhaW5mYWxsPC90ZXh0PjwvZz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwxNi4yNjc2MDU2MzM4MDI4MjMpIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeDI9Ii02Ii8+PHRleHQgZmlsbD0iY3VycmVudENvbG9yIiB4PSItOSIgZHk9IjAuMzJlbSI+UGVyZm9ybWFuY2UgYWNoaWV2YWJsZSBieSB1c2luZyBzb2xlbHkgcmFpbmZhbGw8L3RleHQ+PC9nPjwvZz48dGV4dCB5PSItMjAiIHg9Ii01MCIgZHk9IjFlbSIgc3R5bGU9InRleHQtYW5jaG9yOiBtaWRkbGU7Ij5GZWF0dXJlPC90ZXh0PjwvZz48L3N2Zz4="/>
+
+<br><br>
+Some features may not seem to add predictive performance to the model; however, the feature selection algorithms include
+them as an effort to make the final model more robust to noise.
+The performances achieved by a model that contains all features except one, relative to the performance achieved when the feature is removed is shown below:
+<br>
+
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDQwIiBoZWlnaHQ9IjMyMCI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTQwLDYwKSI+PHBhdGggZD0iJiMxMDsgICAgICAgICAgTTAsMTgwLjQyMjUzNTIxMTI2NzYxJiMxMDsgICAgICAgICAgaDUuMDkyNjg0NzMxNTc2NjYxJiMxMDsgICAgICAgICAgYTUsNSAwIDAgMSA1LDUmIzEwOyAgICAgICAgICB2MTYuNjE5NzE4MzA5ODU5MTUyJiMxMDsgICAgICAgICAgYTUsNSAwIDAgMSAtNSw1JiMxMDsgICAgICAgICAgaC01LjA5MjY4NDczMTU3NjY2MXomIzEwOyAgICAgICAgIiBzdHlsZT0iZmlsbDogcmdiKDEzOSwgMjAyLCAxMzYpOyIvPjxwYXRoIGQ9IiYjMTA7ICAgICAgICAgIE0wLDE1MC44NDUwNzA0MjI1MzUyJiMxMDsgICAgICAgICAgaDMyLjAxNjg1NjUzNjIwMzk3NCYjMTA7ICAgICAgICAgIGE1LDUgMCAwIDEgNSw1JiMxMDsgICAgICAgICAgdjE2LjYxOTcxODMwOTg1OTE1MiYjMTA7ICAgICAgICAgIGE1LDUgMCAwIDEgLTUsNSYjMTA7ICAgICAgICAgIGgtMzIuMDE2ODU2NTM2MjAzOTc0eiYjMTA7ICAgICAgICAiIHN0eWxlPSJmaWxsOiByZ2IoMTM5LCAyMDIsIDEzNik7Ii8+PHBhdGggZD0iJiMxMDsgICAgICAgICAgTTAsMTIxLjI2NzYwNTYzMzgwMjgyJiMxMDsgICAgICAgICAgaDM4LjYwNTk0ODI4NjYwOTg0JiMxMDsgICAgICAgICAgYTUsNSAwIDAgMSA1LDUmIzEwOyAgICAgICAgICB2MTYuNjE5NzE4MzA5ODU5MTUyJiMxMDsgICAgICAgICAgYTUsNSAwIDAgMSAtNSw1JiMxMDsgICAgICAgICAgaC0zOC42MDU5NDgyODY2MDk4NHomIzEwOyAgICAgICAgIiBzdHlsZT0iZmlsbDogcmdiKDEzOSwgMjAyLCAxMzYpOyIvPjxwYXRoIGQ9IiYjMTA7ICAgICAgICAgIE0wLDkxLjY5MDE0MDg0NTA3MDQzJiMxMDsgICAgICAgICAgaDQ0LjQwNDQ5NTA4NjA4MTQ3JiMxMDsgICAgICAgICAgYTUsNSAwIDAgMSA1LDUmIzEwOyAgICAgICAgICB2MTYuNjE5NzE4MzA5ODU5MTUyJiMxMDsgICAgICAgICAgYTUsNSAwIDAgMSAtNSw1JiMxMDsgICAgICAgICAgaC00NC40MDQ0OTUwODYwODE0N3omIzEwOyAgICAgICAgIiBzdHlsZT0iZmlsbDogcmdiKDEzOSwgMjAyLCAxMzYpOyIvPjxwYXRoIGQ9IiYjMTA7ICAgICAgICAgIE0wLDYyLjExMjY3NjA1NjMzODAzJiMxMDsgICAgICAgICAgaDE0MS41MDQ1OTM2MzIxODE0NyYjMTA7ICAgICAgICAgIGE1LDUgMCAwIDEgNSw1JiMxMDsgICAgICAgICAgdjE2LjYxOTcxODMwOTg1OTE1MiYjMTA7ICAgICAgICAgIGE1LDUgMCAwIDEgLTUsNSYjMTA7ICAgICAgICAgIGgtMTQxLjUwNDU5MzYzMjE4MTQ3eiYjMTA7ICAgICAgICAiIHN0eWxlPSJmaWxsOiByZ2IoMTM5LCAyMDIsIDEzNik7Ii8+PHBhdGggZD0iJiMxMDsgICAgICAgICAgTTAsMzIuNTM1MjExMjY3NjA1NjQmIzEwOyAgICAgICAgICBoMTg1Ljk3NjU1MDc0NDkwMzI1JiMxMDsgICAgICAgICAgYTUsNSAwIDAgMSA1LDUmIzEwOyAgICAgICAgICB2MTYuNjE5NzE4MzA5ODU5MTUyJiMxMDsgICAgICAgICAgYTUsNSAwIDAgMSAtNSw1JiMxMDsgICAgICAgICAgaC0xODUuOTc2NTUwNzQ0OTAzMjV6JiMxMDsgICAgICAgICIgc3R5bGU9ImZpbGw6IHJnYigxMzksIDIwMiwgMTM2KTsiLz48cGF0aCBkPSImIzEwOyAgICAgICAgICBNMCwyLjk1Nzc0NjQ3ODg3MzI0NyYjMTA7ICAgICAgICAgIGgzNTUuMzIwNTI5NjQ1NDE1MTUmIzEwOyAgICAgICAgICBhNSw1IDAgMCAxIDUsNSYjMTA7ICAgICAgICAgIHYxNi42MTk3MTgzMDk4NTkxNTImIzEwOyAgICAgICAgICBhNSw1IDAgMCAxIC01LDUmIzEwOyAgICAgICAgICBoLTM1NS4zMjA1Mjk2NDU0MTUxNXomIzEwOyAgICAgICAgIiBzdHlsZT0iZmlsbDogcmdiKDEzOSwgMjAyLCAxMzYpOyIvPjxsaW5lIGNsYXNzPSJlcnJvciIgeDE9IjAiIHgyPSI2Ny44NzgwMjg0MDQzNTU2MyIgeTE9IjE5My43MzIzOTQzNjYxOTcxOCIgeTI9IjE5My43MzIzOTQzNjYxOTcxOCIgc3R5bGU9InN0cm9rZTogcmdiKDExNywgMTE3LCAxMTcpOyBzdHJva2Utd2lkdGg6IDFweDsgZmlsbDogbm9uZTsiLz48bGluZSBjbGFzcz0iZXJyb3IiIHgxPSIwIiB4Mj0iOTcuNjgyODUzMTcxODU3MjUiIHkxPSIxNjQuMTU0OTI5NTc3NDY0NzciIHkyPSIxNjQuMTU0OTI5NTc3NDY0NzciIHN0eWxlPSJzdHJva2U6IHJnYigxMTcsIDExNywgMTE3KTsgc3Ryb2tlLXdpZHRoOiAxcHg7IGZpbGw6IG5vbmU7Ii8+PGxpbmUgY2xhc3M9ImVycm9yIiB4MT0iMCIgeDI9IjExMS44ODMyNDEzODIwMjMyOSIgeTE9IjEzNC41Nzc0NjQ3ODg3MzIzOSIgeTI9IjEzNC41Nzc0NjQ3ODg3MzIzOSIgc3R5bGU9InN0cm9rZTogcmdiKDExNywgMTE3LCAxMTcpOyBzdHJva2Utd2lkdGg6IDFweDsgZmlsbDogbm9uZTsiLz48bGluZSBjbGFzcz0iZXJyb3IiIHgxPSIwIiB4Mj0iMTMxLjE4OTgzMTYxODUzNjAzIiB5MT0iMTA1IiB5Mj0iMTA1IiBzdHlsZT0ic3Ryb2tlOiByZ2IoMTE3LCAxMTcsIDExNyk7IHN0cm9rZS13aWR0aDogMXB4OyBmaWxsOiBub25lOyIvPjxsaW5lIGNsYXNzPSJlcnJvciIgeDE9IjU1LjU3Nzk1MDMxNDgxODY3IiB4Mj0iMjc3LjIxNzkwODc5NjkwNDQiIHkxPSI3NS40MjI1MzUyMTEyNjc2MSIgeTI9Ijc1LjQyMjUzNTIxMTI2NzYxIiBzdHlsZT0ic3Ryb2tlOiByZ2IoMTE3LCAxMTcsIDExNyk7IHN0cm9rZS13aWR0aDogMXB4OyBmaWxsOiBub25lOyIvPjxsaW5lIGNsYXNzPSJlcnJvciIgeDE9Ijg0LjgzOTg1NjE0MzE1OTYiIHgyPSIzMjkuMTI3MTUyNDM1NDU2MyIgeTE9IjQ1Ljg0NTA3MDQyMjUzNTIxNSIgeTI9IjQ1Ljg0NTA3MDQyMjUzNTIxNSIgc3R5bGU9InN0cm9rZTogcmdiKDExNywgMTE3LCAxMTcpOyBzdHJva2Utd2lkdGg6IDFweDsgZmlsbDogbm9uZTsiLz48bGluZSBjbGFzcz0iZXJyb3IiIHgxPSIyMzEuNjU0NTg3OTg4NDA5ODQiIHgyPSI1MzQuNzQyODA2OTIwNDAxOCIgeTE9IjE2LjI2NzYwNTYzMzgwMjgyMyIgeTI9IjE2LjI2NzYwNTYzMzgwMjgyMyIgc3R5bGU9InN0cm9rZTogcmdiKDExNywgMTE3LCAxMTcpOyBzdHJva2Utd2lkdGg6IDFweDsgZmlsbDogbm9uZTsiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLDIxMCkiIGZpbGw9Im5vbmUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj48cGF0aCBjbGFzcz0iZG9tYWluIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgZD0iTTAuNSw2VjAuNUg2MDAuNVY2Ii8+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuNSwwKSI+PGxpbmUgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHkyPSI2Ii8+PHRleHQgZmlsbD0iY3VycmVudENvbG9yIiB5PSI5IiBkeT0iMC43MWVtIj4wJTwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY3LjE2NjY2NjY2NjY2NjY3LDApIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeTI9IjYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHk9IjkiIGR5PSIwLjcxZW0iPjAuMDIlPC90ZXh0PjwvZz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTMzLjgzMzMzMzMzMzMzMzM0LDApIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeTI9IjYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHk9IjkiIGR5PSIwLjcxZW0iPjAuMDQlPC90ZXh0PjwvZz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjAwLjUsMCkiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB5Mj0iNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeT0iOSIgZHk9IjAuNzFlbSI+MC4wNiU8L3RleHQ+PC9nPjxnIGNsYXNzPSJ0aWNrIiBvcGFjaXR5PSIxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNjcuMTY2NjY2NjY2NjY2NywwKSI+PGxpbmUgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHkyPSI2Ii8+PHRleHQgZmlsbD0iY3VycmVudENvbG9yIiB5PSI5IiBkeT0iMC43MWVtIj4wLjA4JTwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMzMy44MzMzMzMzMzMzMzMzNywwKSI+PGxpbmUgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHkyPSI2Ii8+PHRleHQgZmlsbD0iY3VycmVudENvbG9yIiB5PSI5IiBkeT0iMC43MWVtIj4wLjElPC90ZXh0PjwvZz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDAwLjUsMCkiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB5Mj0iNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeT0iOSIgZHk9IjAuNzFlbSI+MC4xMiU8L3RleHQ+PC9nPjxnIGNsYXNzPSJ0aWNrIiBvcGFjaXR5PSIxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0NjcuMTY2NjY2NjY2NjY2NzQsMCkiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB5Mj0iNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeT0iOSIgZHk9IjAuNzFlbSI+MC4xNCU8L3RleHQ+PC9nPjxnIGNsYXNzPSJ0aWNrIiBvcGFjaXR5PSIxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1MzMuODMzMzMzMzMzMzMzNCwwKSI+PGxpbmUgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHkyPSI2Ii8+PHRleHQgZmlsbD0iY3VycmVudENvbG9yIiB5PSI5IiBkeT0iMC43MWVtIj4wLjE2JTwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYwMC41LDApIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeTI9IjYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHk9IjkiIGR5PSIwLjcxZW0iPjAuMTglPC90ZXh0PjwvZz48L2c+PHRleHQgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzAwICwyNTApIiBzdHlsZT0idGV4dC1hbmNob3I6IG1pZGRsZTsiPlByZWRpY3RpdmUgcGVyZm9ybWFuY2UgcGVyY2VudGFnZSBkcm9wPC90ZXh0PjxnIGZpbGw9Im5vbmUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiB0ZXh0LWFuY2hvcj0iZW5kIj48cGF0aCBjbGFzcz0iZG9tYWluIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgZD0iTS02LDIxMC41SDAuNVYwLjVILTYiLz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwxOTMuNzMyMzk0MzY2MTk3MTgpIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeDI9Ii02Ii8+PHRleHQgZmlsbD0iY3VycmVudENvbG9yIiB4PSItOSIgZHk9IjAuMzJlbSI+cGg8L3RleHQ+PC9nPjxnIGNsYXNzPSJ0aWNrIiBvcGFjaXR5PSIxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLDE2NC4xNTQ5Mjk1Nzc0NjQ3NykiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB4Mj0iLTYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHg9Ii05IiBkeT0iMC4zMmVtIj5OPC90ZXh0PjwvZz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwxMzQuNTc3NDY0Nzg4NzMyMzkpIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeDI9Ii02Ii8+PHRleHQgZmlsbD0iY3VycmVudENvbG9yIiB4PSItOSIgZHk9IjAuMzJlbSI+UDwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsMTA1KSI+PGxpbmUgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHgyPSItNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeD0iLTkiIGR5PSIwLjMyZW0iPnRlbXBlcmF0dXJlPC90ZXh0PjwvZz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCw3NS40MjI1MzUyMTEyNjc2MSkiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB4Mj0iLTYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHg9Ii05IiBkeT0iMC4zMmVtIj5LPC90ZXh0PjwvZz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCw0NS44NDUwNzA0MjI1MzUyMTUpIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeDI9Ii02Ii8+PHRleHQgZmlsbD0iY3VycmVudENvbG9yIiB4PSItOSIgZHk9IjAuMzJlbSI+aHVtaWRpdHk8L3RleHQ+PC9nPjxnIGNsYXNzPSJ0aWNrIiBvcGFjaXR5PSIxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLDE2LjI2NzYwNTYzMzgwMjgyMykiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB4Mj0iLTYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHg9Ii05IiBkeT0iMC4zMmVtIj5yYWluZmFsbDwvdGV4dD48L2c+PC9nPjx0ZXh0IHk9Ii0yMCIgeD0iLTUwIiBkeT0iMWVtIiBzdHlsZT0idGV4dC1hbmNob3I6IG1pZGRsZTsiPkZlYXR1cmU8L3RleHQ+PC9nPjwvc3ZnPg=="/>
+
+<br><br>
+For some features there is no noticeable drop in performance when they are removed because they carry predictive information that is shared by other
+features selected.
+<br><br>
+
+
+
+The separation of the predictions of the classes achieved by the model is shown in the box-plots below.
+These are the out-of-sample predictions made by model produced by the same configuration as the final model when the sample
+was used for testing (e.g.., during cross-validation) and was not used to train the model.
+<br>
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjUwMCI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTAsNDApIj48dGV4dCB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0MTUgLDQ2MCkiIHN0eWxlPSJ0ZXh0LWFuY2hvcjogbWlkZGxlOyIvPjx0ZXh0IHRyYW5zZm9ybT0icm90YXRlKC05MCkiIHk9Ii01MCIgeD0iLTIwMCIgZHk9IjFlbSIgc3R5bGU9InRleHQtYW5jaG9yOiBtaWRkbGU7Ij5QcmVkaWN0ZWQgcHJvYmFiaWxpdHkgb2YgYmVsb25naW5nIHRvIGNsYXNzICJhcHBsZSI8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCw0MDApIiBmaWxsPSJub25lIiBmb250LXNpemU9IjEwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+PHBhdGggY2xhc3M9ImRvbWFpbiIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIGQ9Ik0wLjUsNlYwLjVIODMwLjVWNiIvPjxnIGNsYXNzPSJ0aWNrIiBvcGFjaXR5PSIxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMDgsMCkiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB5Mj0iNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeT0iOSIgZHk9IjAuNzFlbSI+Q2xhc3MgImFwcGxlIjwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYyMywwKSI+PGxpbmUgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHkyPSI2Ii8+PHRleHQgZmlsbD0iY3VycmVudENvbG9yIiB5PSI5IiBkeT0iMC43MWVtIj5PdGhlciBjbGFzczwvdGV4dD48L2c+PC9nPjxnIGZpbGw9Im5vbmUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiB0ZXh0LWFuY2hvcj0iZW5kIj48cGF0aCBjbGFzcz0iZG9tYWluIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgZD0iTS02LDQwMC41SDAuNVYwLjVILTYiLz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCw0MDAuNSkiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB4Mj0iLTYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHg9Ii05IiBkeT0iMC4zMmVtIj4wLjA8L3RleHQ+PC9nPjxnIGNsYXNzPSJ0aWNrIiBvcGFjaXR5PSIxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLDM2MC41KSI+PGxpbmUgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHgyPSItNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeD0iLTkiIGR5PSIwLjMyZW0iPjAuMTwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsMzIwLjUpIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeDI9Ii02Ii8+PHRleHQgZmlsbD0iY3VycmVudENvbG9yIiB4PSItOSIgZHk9IjAuMzJlbSI+MC4yPC90ZXh0PjwvZz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwyODAuNSkiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB4Mj0iLTYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHg9Ii05IiBkeT0iMC4zMmVtIj4wLjM8L3RleHQ+PC9nPjxnIGNsYXNzPSJ0aWNrIiBvcGFjaXR5PSIxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLDI0MC41KSI+PGxpbmUgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHgyPSItNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeD0iLTkiIGR5PSIwLjMyZW0iPjAuNDwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsMjAwLjUpIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeDI9Ii02Ii8+PHRleHQgZmlsbD0iY3VycmVudENvbG9yIiB4PSItOSIgZHk9IjAuMzJlbSI+MC41PC90ZXh0PjwvZz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwxNjAuNSkiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB4Mj0iLTYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHg9Ii05IiBkeT0iMC4zMmVtIj4wLjY8L3RleHQ+PC9nPjxnIGNsYXNzPSJ0aWNrIiBvcGFjaXR5PSIxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLDEyMC41MDAwMDAwMDAwMDAwMSkiPjxsaW5lIHN0cm9rZT0iY3VycmVudENvbG9yIiB4Mj0iLTYiLz48dGV4dCBmaWxsPSJjdXJyZW50Q29sb3IiIHg9Ii05IiBkeT0iMC4zMmVtIj4wLjc8L3RleHQ+PC9nPjxnIGNsYXNzPSJ0aWNrIiBvcGFjaXR5PSIxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLDgwLjQ5OTk5OTk5OTk5OTk5KSI+PGxpbmUgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHgyPSItNiIvPjx0ZXh0IGZpbGw9ImN1cnJlbnRDb2xvciIgeD0iLTkiIGR5PSIwLjMyZW0iPjAuODwvdGV4dD48L2c+PGcgY2xhc3M9InRpY2siIG9wYWNpdHk9IjEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsNDAuNDk5OTk5OTk5OTk5OTkpIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeDI9Ii02Ii8+PHRleHQgZmlsbD0iY3VycmVudENvbG9yIiB4PSItOSIgZHk9IjAuMzJlbSI+MC45PC90ZXh0PjwvZz48ZyBjbGFzcz0idGljayIgb3BhY2l0eT0iMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwwLjUpIj48bGluZSBzdHJva2U9ImN1cnJlbnRDb2xvciIgeDI9Ii02Ii8+PHRleHQgZmlsbD0iY3VycmVudENvbG9yIiB4PSItOSIgZHk9IjAuMzJlbSI+MS4wPC90ZXh0PjwvZz48L2c+PGxpbmUgeDE9IjIwNy41IiB4Mj0iMjA3LjUiIHkxPSI3LjkxNjY2NjY2NjY2NjU3MiIgeTI9IjAiIHN0cm9rZT0iYmxhY2siIHN0eWxlPSJ3aWR0aDogNDBweDsiLz48bGluZSB4MT0iNjIyLjUiIHgyPSI2MjIuNSIgeTE9IjQwMCIgeTI9IjQwMCIgc3Ryb2tlPSJibGFjayIgc3R5bGU9IndpZHRoOiA0MHB4OyIvPjxyZWN0IHg9IjE1Ny41IiB5PSIwIiBoZWlnaHQ9IjMuMTY2NjY2NjY2NjY2NjI4OCIgd2lkdGg9IjEwMCIgc3Ryb2tlPSJibGFjayIgc3R5bGU9ImZpbGw6IHJnYigwLCAxNzcsIDIxNik7Ii8+PHJlY3QgeD0iNTcyLjUiIHk9IjQwMCIgaGVpZ2h0PSIwIiB3aWR0aD0iMTAwIiBzdHJva2U9ImJsYWNrIiBzdHlsZT0iZmlsbDogcmdiKDEzOSwgMjAyLCAxMzYpOyIvPjxsaW5lIHgxPSIxNTcuNSIgeDI9IjI1Ny41IiB5MT0iMCIgeTI9IjAiIHN0cm9rZT0iYmxhY2siIHN0eWxlPSJ3aWR0aDogODBweDsiLz48bGluZSB4MT0iNTcyLjUiIHgyPSI2NzIuNSIgeTE9IjQwMCIgeTI9IjQwMCIgc3Ryb2tlPSJibGFjayIgc3R5bGU9IndpZHRoOiA4MHB4OyIvPjwvZz48L3N2Zz4="/>
+<br>
+
+## Appendix
+<br><br>
+
+
+Configuration | Preprocessing | Name | Hyperparams | Name | Hyperparams | Performance (unadjusted) | Time (miliseconds) | Dropped
+--- |--- |--- |--- |--- |--- |--- |--- |--- |
+1 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | Epilogi | equivThresh = 0.01, stopping criterion  = Independence Test, stopping threshold  = 0.001 | Classification Decision Tree with Deviance splitting criterion | minimum leaf size = 3, alpha = 0.05 | 0.9896082251082242 | 00:00:06.6972 | false
+2 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | Test-Budgeted Statistically Equivalent Signature (SES) | maxK = 2, alpha = 0.05, budget = 3 * nvars | Ridge Logistic Regression | lambda = 1.0 | 0.522517316017316 | 00:00:16.16897 | false
+3 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | Epilogi | equivThresh = 0.01, stopping criterion  = Independence Test, stopping threshold  = 0.001 | Classification Random Forest with Deviance splitting criterion | ntrees = 100, minimum leaf size = 3 | 0.9973647186147188 | 00:00:06.6893 | false
+4 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | LASSO | penalty = 1.0 | Classification Random Forest with Deviance splitting criterion | ntrees = 100, minimum leaf size = 3 | 0.9999870129870132 | 00:00:21.21015 | false
+5 | IdentityFactory | FullSelector | - | Trivial model | - | 0.5 | 00:00:00.000 | false
+6 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | Test-Budgeted Statistically Equivalent Signature (SES) | maxK = 2, alpha = 0.05, budget = 3 * nvars | Support Vector Machines (SVM) of type C-SVC | kernel = 'Linear Kernel', cost = 1.0 | 0.9681493506493509 | 00:00:16.16100 | false
+7 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | Epilogi | equivThresh = 0.01, stopping criterion  = Independence Test, stopping threshold  = 0.001 | Support Vector Machines (SVM) of type C-SVC | kernel = 'Polynomial Kernel', cost = 1.0, gamma = 1.0, degree = 3 | 0.9877164502164502 | 00:00:06.6892 | false
+8 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | LASSO | penalty = 1.0 | Support Vector Machines (SVM) of type C-SVC | kernel = 'Linear Kernel', cost = 1.0 | 0.9855909090909092 | 00:00:20.20979 | false
+9 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | Epilogi | equivThresh = 0.01, stopping criterion  = Independence Test, stopping threshold  = 0.001 | Support Vector Machines (SVM) of type C-SVC | kernel = 'Linear Kernel', cost = 1.0 | 0.9875779220779222 | 00:00:06.6891 | false
+10 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | LASSO | penalty = 1.0 | Support Vector Machines (SVM) of type C-SVC | kernel = 'Polynomial Kernel', cost = 1.0, gamma = 1.0, degree = 3 | 0.9915887445887448 | 00:00:20.20979 | false
+11 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | Test-Budgeted Statistically Equivalent Signature (SES) | maxK = 2, alpha = 0.05, budget = 3 * nvars | Support Vector Machines (SVM) of type C-SVC | kernel = 'Polynomial Kernel', cost = 1.0, gamma = 1.0, degree = 3 | 0.9833809523809528 | 00:00:16.16063 | false
+12 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | Test-Budgeted Statistically Equivalent Signature (SES) | maxK = 2, alpha = 0.05, budget = 3 * nvars | Classification Random Forest with Deviance splitting criterion | ntrees = 100, minimum leaf size = 3 | 0.9996060606060605 | 00:00:16.16112 | false
+13 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | LASSO | penalty = 1.0 | Ridge Logistic Regression | lambda = 1.0 | 0.5714285714285715 | 00:00:21.21774 | false
+14 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | Test-Budgeted Statistically Equivalent Signature (SES) | maxK = 2, alpha = 0.05, budget = 3 * nvars | Classification Random Forest with Deviance splitting criterion | ntrees = 100, minimum leaf size = 3 | 0.9995757575757578 | 00:00:15.15953 | false
+15 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | Test-Budgeted Statistically Equivalent Signature (SES) | maxK = 2, alpha = 0.05, budget = 3 * nvars | Classification Decision Tree with Deviance splitting criterion | minimum leaf size = 3, alpha = 0.05 | 0.9875519480519469 | 00:00:16.16013 | false
+16 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | LASSO | penalty = 1.0 | Support Vector Machines (SVM) of type C-SVC | kernel = 'Gaussian Kernel', cost = 1.0, gamma = 1.0 | 0.9996623376623376 | 00:00:21.21163 | false
+17 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | LASSO | penalty = 1.0 | Classification Random Forest with Deviance splitting criterion | ntrees = 100, minimum leaf size = 3 | 0.9999870129870132 | 00:00:21.21019 | false
+18 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | Test-Budgeted Statistically Equivalent Signature (SES) | maxK = 2, alpha = 0.05, budget = 3 * nvars | Classification Random Forest with Deviance splitting criterion | ntrees = 100, minimum leaf size = 3 | 0.9996060606060605 | 00:00:16.16012 | false
+19 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | Test-Budgeted Statistically Equivalent Signature (SES) | maxK = 2, alpha = 0.05, budget = 3 * nvars | Support Vector Machines (SVM) of type C-SVC | kernel = 'Gaussian Kernel', cost = 1.0, gamma = 1.0 | 0.9986277056277058 | 00:00:16.16275 | false
+20 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | Epilogi | equivThresh = 0.01, stopping criterion  = Independence Test, stopping threshold  = 0.001 | Ridge Logistic Regression | lambda = 1.0 | 0.5801428571428572 | 00:00:07.7727 | false
+21 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | LASSO | penalty = 1.0 | Classification Decision Tree with Deviance splitting criterion | minimum leaf size = 3, alpha = 0.05 | 0.9930887445887439 | 00:00:21.21032 | false
+22 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | LASSO | penalty = 1.0 | Classification Random Forest with Deviance splitting criterion | ntrees = 100, minimum leaf size = 3 | 0.9999848484848485 | 00:00:21.21073 | false
+23 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | Epilogi | equivThresh = 0.01, stopping criterion  = Independence Test, stopping threshold  = 0.001 | Classification Random Forest with Deviance splitting criterion | ntrees = 100, minimum leaf size = 3 | 0.9974469696969699 | 00:00:06.6924 | false
+24 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | Epilogi | equivThresh = 0.01, stopping criterion  = Independence Test, stopping threshold  = 0.001 | Support Vector Machines (SVM) of type C-SVC | kernel = 'Gaussian Kernel', cost = 1.0, gamma = 1.0 | 0.9948917748917748 | 00:00:06.6999 | false
+25 | Mean Imputation, Mode Imputation, Constant Removal, Standardization | Epilogi | equivThresh = 0.01, stopping criterion  = Independence Test, stopping threshold  = 0.001 | Classification Random Forest with Deviance splitting criterion | ntrees = 100, minimum leaf size = 3 | 0.9974469696969699 | 00:00:06.6919 | false
+
