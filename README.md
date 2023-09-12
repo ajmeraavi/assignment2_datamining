@@ -1,6 +1,7 @@
 # assignment2_datamining
+LINKS TO BOTH THE TASKS ARE PRESENT IN THE ARTICLE
 #1  My Journey into Machine Learning with JadBio
-MEDIUM LINK: https://medium.com/@ajmeraavi/my-journey-into-machine-learning-with-jadbio-e3ab6b897798
+[MEDIUM LINK](https://medium.com/@ajmeraavi/my-journey-into-machine-learning-with-jadbio-e3ab6b897798)
 
 
 This is a walk through of the process I took while working with Crop Recommendation Dataset using JabBio
@@ -85,6 +86,5 @@ As industries across the board continue to embrace technological advancements, m
 
 #2 ML Implementations using PyCaret (All COLLAB files included in the folder with their respective CSV files)
 
--Regression : https://colab.research.google.com/drive/1ur1HZwzBTJAaeUC965i_i3qBCmEjZimh?usp=sharing
 
--
+[ML PYCARET COLLAB FILES]([Link to your URL](https://drive.google.com/drive/folders/11GLIW3hf5qp6-YqXkacfdNnNlY9b0VrP?usp=sharing)
